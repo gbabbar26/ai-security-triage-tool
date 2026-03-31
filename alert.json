@@ -1,0 +1,34 @@
+[
+
+{
+"username":"admin",
+"timestamp":"March 30, 2026 11:27:02 PM CST",
+"location_ip":"185.200.105.23",
+"no_of_attempts":47,
+"status":"Login Failed",
+"timespan_in_min":3
+},
+
+{
+"sender_email":"abc123@gmail.com",
+"timestamp":"March 31, 2026 1:30:05 PM CST",
+"source_ip":"192.122.101.25",
+"email_subject":"Amazon Gift Card worth upto $5000",
+"email_content":"...... click on this link: http://ww2.amazon.com/bonus-rewards.",
+"attachment":null,
+"receiver_email":"happy@gmail.com",
+"destination_ip":"185.170.45.1"
+},
+
+{
+"username":"user1",
+"timestamp":"March 31, 2026 1:40:05 PM CST",
+"location_ip":"167.140.203.2",
+"no_of_attempts":3,
+"status":"Admin Login Successful",
+"admin_permission":"NO",
+"ip_used_before":"NO",
+"device_used_to_login":"2a:3e:4b:aa:bb:ee"
+}
+
+]
