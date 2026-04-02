@@ -1,0 +1,4 @@
+executive_report.txt
+__pycache__/
+*.pyc
+.env
