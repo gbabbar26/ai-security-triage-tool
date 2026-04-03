@@ -1,6 +1,9 @@
 import anthropic
 import os
 import json
+from datetime import datetime 
+
+timestamp=datetime.now().strftime("%Y-%m-%d_%H-%M")
 
 try:
 	client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
@@ -8,6 +11,7 @@ except Exception as e:
 	print("API KEY Not found/failed/wrong due to connectivity issues")
 	print(f"Error details: {e}")
 	exit()
+
 
 try:
 	with open("alert.json","r") as f:
@@ -32,14 +36,64 @@ def analyse_alert(alert):
 		print(f"Error Details: {e}")
 		print("This alert failed to analysed, moving onto next. Check Manually")
 		return None
+
+while True:
+	print("="*50+"\n")
+	print("\tWelcome to AI Alert Triage Tool\n")
+	print("="*50+"\n")
+	print("1. Analyse all alerts.\n")
+	print("2. Analyse critical/high alerts only.\n")
+	print("3. Analyse single alert by ID.\n")
+	print("4. Exit\n")
 	
-with open("report.txt", "w", encoding="utf-8") as output_file:
-	for item in alerts:
-		result=analyse_alert(item)
-		if result is None:
-			continue
-		else:
-			output_file.write(result)
-			output_file.write("\n\n" + "="*50 + "\n\n")
+	choice=input("Enter Your Choice (1-4) : ")
+	
+	if (choice=="1"):
+		print("Analysing alerts... please wait.")
+		with open(f"report_all_{timestamp}.txt", "w", encoding="utf-8") as output_file:
+			for item in alerts:
+				result=analyse_alert(item)
+				if result is None:
+					continue
+				else:
+					output_file.write(result)
+					output_file.write("\n\n" + "="*50 + "\n\n")
+		
+		print(f"Done! All alerts saved to report_all_{timestamp}.txt!")
+	elif choice=="2":
+		print("Analysing alerts... please wait.")
+		with open(f"report_critical_{timestamp}.txt", "w", encoding="utf-8") as output_file:
+			for item in alerts:
+				result=analyse_alert(item)
+				if result is None:
+					continue
+				elif "CRITICAL" in result or "HIGH" in result:
+					output_file.write(result)
+					output_file.write("\n\n" + "="*50 + "\n\n")
+		print(f"Done! High/Critical alerts saved to report_critical_{timestamp}.txt!")
+	elif choice=="3":
+		alert_id=input("Enter Alert ID (in format ALT-001): ")
+		print("Analysing alerts... please wait.")
+		found=False
+		for alert in alerts:
+			if alert["alertID"] == alert_id:
+				result=analyse_alert(alert)
+				found= True
+				if result:
+					filename=f"report_{alert_id}_{timestamp}.txt"
+					with open(filename,"w",encoding="utf-8") as output_file:
+						output_file.write(result)
+					print(f"Done! Report saved by {filename}")
+				
+				break
+		if not found:
+			print("Invalid Alert ID.")
+	elif choice=="4":
+		break
+	else:
+		print("\n Wrong number, choose from 1-4. \n")
+
+	
+	
 
 	

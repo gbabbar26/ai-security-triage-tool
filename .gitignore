@@ -1,5 +1,4 @@
+report*.txt
 api key.txt
-report.txt
-__pycache__/
-*.pyc
-.env
+executive-report-summarizer/
+threat-hunt-generator/
