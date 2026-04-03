@@ -10,6 +10,16 @@ As a cybersecurity professional with hands-on SOC and network security experienc
 problem in SOC environments — analysts often deal with hundreds of alerts daily, making it difficult to prioritise effectively. I built this tool to understand how LLMs like Claude 
 can be integrated into security pipelines to assist with triage, reduce manual effort, and improve response time.
 
+## Update v2.0 — Interactive Analyst Interface
+
+The tool now features a fully interactive menu giving analysts complete control over their workflow. Instead of running the script and analysing all alerts every time, analysts can choose exactly what they need:
+
+Option 1 — Analyse all alerts at once
+Option 2 — Analyse critical and high severity alerts only, filtering out noise
+Option 3 — Analyse a single alert by its unique Alert ID for targeted investigation
+
+All reports are automatically saved as timestamped .txt files — making it easy to identify when a report was generated and maintain a clean audit trail. This reduces unnecessary API calls, saves time, and keeps records organized — exactly how a real SOC environment operates.
+
 ## How it works
 
 Alert Ingestion — Reads security alerts from a JSON file, simulating how a SIEM tool like Splunk or Microsoft Sentinel would generate structured alert data
