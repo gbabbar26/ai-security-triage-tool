@@ -37,6 +37,7 @@ def analyse_alert(alert):
 		print("This alert failed to analysed, moving onto next. Check Manually")
 		return None
 
+
 while True:
 	print("="*50+"\n")
 	print("\tWelcome to AI Alert Triage Tool\n")
@@ -49,6 +50,11 @@ while True:
 	choice=input("Enter Your Choice (1-4) : ")
 	
 	if (choice=="1"):
+		total = 0
+		critical_count = 0
+		high_count = 0
+		medium_low_count = 0
+
 		print("Analysing alerts... please wait.")
 		with open(f"report_all_{timestamp}.txt", "w", encoding="utf-8") as output_file:
 			for item in alerts:
@@ -56,11 +62,26 @@ while True:
 				if result is None:
 					continue
 				else:
+					if "CRITICAL" in result:
+						critical_count+=1
+					if "HIGH" in result:
+						high_count+=1
+					if "MEDIUM" in result or "LOW" in result:
+						medium_low_count+=1
+					total+=1
 					output_file.write(result)
-					output_file.write("\n\n" + "="*50 + "\n\n")
-		
+					output_file.write("\n\n" + "="*50 + "\n\n")				
+			output_file.write(f"SUMMARY\n")
+			output_file.write(f"Total alerts analysed: {total} | Critical Alerts: {critical_count} | High Risk Alerts: {high_count} | Medium or Low Alert Count: {medium_low_count}")
 		print(f"Done! All alerts saved to report_all_{timestamp}.txt!")
+		
+	
 	elif choice=="2":
+		total = 0
+		critical_count = 0
+		high_count = 0
+		medium_low_count = 0
+
 		print("Analysing alerts... please wait.")
 		with open(f"report_critical_{timestamp}.txt", "w", encoding="utf-8") as output_file:
 			for item in alerts:
@@ -68,8 +89,16 @@ while True:
 				if result is None:
 					continue
 				elif "CRITICAL" in result or "HIGH" in result:
+					if "CRITICAL" in result:
+						critical_count+=1
+					if "HIGH" in result:
+						high_count+=1
+					total+=1
 					output_file.write(result)
 					output_file.write("\n\n" + "="*50 + "\n\n")
+			output_file.write(f"SUMMARY\n")
+			output_file.write(f"Total alerts analysed: {total} | Critical Alerts: {critical_count} | High Risk Alerts: {high_count}")
+
 		print(f"Done! High/Critical alerts saved to report_critical_{timestamp}.txt!")
 	elif choice=="3":
 		alert_id=input("Enter Alert ID (in format ALT-001): ")
