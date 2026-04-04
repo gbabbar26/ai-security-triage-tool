@@ -2,6 +2,8 @@ import anthropic
 import os
 import json
 from datetime import datetime 
+import csv
+
 
 timestamp=datetime.now().strftime("%Y-%m-%d_%H-%M")
 
@@ -12,14 +14,31 @@ except Exception as e:
 	print(f"Error details: {e}")
 	exit()
 
+if os.path.exists("alert.json"):
+	try:
+	
+		with open("alert.json","r") as f:
+			alerts=json.load(f)
+	except Exception as e:
+		print("JSON File not found")
+		print(f"Error details: {e}")
+		exit()
 
-try:
-	with open("alert.json","r") as f:
-		alerts=json.load(f)
-except Exception as e:
-	print("File not found")
-	print(f"Error details: {e}")
+elif os.path.exists("alert.csv"):
+	try:
+	
+		with open("alert.csv","r") as f:
+			reader=csv.DictReader(f)
+			alerts=list(reader)
+	except Exception as e:
+		print("CSV File not found")
+		print(f"Error details: {e}")
+		exit()
+
+else:
+	print("No file found!")
 	exit()
+
 
 def analyse_alert(alert): 
 	try:
