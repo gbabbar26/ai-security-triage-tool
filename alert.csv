@@ -1,0 +1,4 @@
+alertID,timestamp,event_type,source_ip,username,status,details
+ALT-001,March 30 2026,brute_force,185.200.105.23,admin,Login Failed,"47 attempts in 3 minutes"
+ALT-002,March 31 2026,phishing,192.122.101.25,,,"Amazon gift card email sent"
+ALT-003,March 31 2026,privilege_escalation,167.140.203.2,user1,Login Successful,"Unknown device and IP",
