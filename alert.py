@@ -4,9 +4,11 @@ import json
 from datetime import datetime 
 import csv
 
+# making sure our file reports will have the updated and time according to when it got generated.
 
 timestamp=datetime.now().strftime("%Y-%m-%d_%H-%M")
 
+#calling the api, api_key already set in the environment variable in the system.
 try:
 	client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 except Exception as e:
@@ -14,6 +16,7 @@ except Exception as e:
 	print(f"Error details: {e}")
 	exit()
 
+# using os library to check what type of data file we have of alerts- json or csv and accordingly loading it to proceed further.
 if os.path.exists("alert.json"):
 	try:
 	
@@ -24,7 +27,7 @@ if os.path.exists("alert.json"):
 		print(f"Error details: {e}")
 		exit()
 
-elif os.path.exists("alert.csv"):
+elif os.path.exists("alert.csv"): 	#if there is no json file present, only then this block will run to check for the presence of csv file
 	try:
 	
 		with open("alert.csv","r") as f:
@@ -35,10 +38,14 @@ elif os.path.exists("alert.csv"):
 		print(f"Error details: {e}")
 		exit()
 
-else:
+else:				#if no such file is present then only it will stop
 	print("No file found!")
 	exit()
 
+
+# function to assess the alert using claude api, describing the prompt in detail, the model and token that it will use and so on... 
+
+# all our data from the csv or json file will be given to claude for analysis
 
 def analyse_alert(alert): 
 	try:
@@ -56,6 +63,7 @@ def analyse_alert(alert):
 		print("This alert failed to analysed, moving onto next. Check Manually")
 		return None
 
+# creating an interactive menu for the analyst as to what is the purpose of their analysis today, whether they want all, just high or critical ones or a single alert that they can search for using their id.
 
 while True:
 	print("="*50+"\n")
@@ -92,7 +100,7 @@ while True:
 					output_file.write("\n\n" + "="*50 + "\n\n")				
 			output_file.write(f"SUMMARY\n")
 			output_file.write(f"Total alerts analysed: {total} | Critical Alerts: {critical_count} | High Risk Alerts: {high_count} | Medium or Low Alert Count: {medium_low_count}")
-		print(f"Done! All alerts saved to report_all_{timestamp}.txt!")
+		print(f"Done! All alerts saved to report_all_{timestamp}.txt!")  #the results will be found in the respective report name with the exact timestamp.
 		
 	
 	elif choice=="2":
